@@ -25,7 +25,7 @@ InsightForge is a production-grade agent system that turns raw business data int
 
 ```
 User (Streamlit UI)
-    │
+    |
     ▼
 ┌─────────────────────┐
 │  Orchestrator Agent │  ← Routes tasks, manages session memory
@@ -75,6 +75,21 @@ User (Streamlit UI)
 - **Cloud**: Google Cloud Run
 - **Dev Environment**: Antigravity IDE
 
+## MCP Server
+
+InsightForge exposes its data analysis tools via the [Model Context Protocol (MCP)](https://modelcontextprotocol.io),
+making them reusable by any MCP-compatible agent framework.
+
+```bash
+# Run the MCP server
+python mcp_server/server.py
+
+# Or inspect with MCP dev tools
+mcp dev mcp_server/server.py
+```
+
+See `docs/MCP_GUIDE.md` for full protocol documentation.
+
 ## Project Structure
 
 ```
@@ -84,14 +99,16 @@ insightforge/
 │   ├── agent.py              # Agent definition (root_agent)
 │   └── tools.py              # Data analysis tools (self-contained)
 ├── tests/                    # pytest suite
-│   └── test_day1.py
+│   ├── test_day1.py
+│   └── test_mcp_server.py
 ├── docs/                     # Documentation
 │   ├── RECORDING_GUIDE.md
-│   └── GIT_WORKFLOW.md
+│   ├── GIT_WORKFLOW.md
+│   └── MCP_GUIDE.md
 ├── deployment/               # Cloud Run config (Day 12)
 │   └── README.md
 ├── mcp_server/               # MCP server (Day 2)
-│   └── .gitkeep
+│   └── server.py
 ├── requirements.txt
 ├── pytest.ini
 ├── .env.example
@@ -146,6 +163,20 @@ adk run root_agent
 **Test it:**
 > *"Analyze the file sample_sales.csv"*
 
+### Running the MCP Server (Day 2)
+
+```bash
+# Run the MCP server (stdio transport)
+python mcp_server/server.py
+
+# Or inspect with MCP dev tools
+mcp dev mcp_server/server.py
+```
+
+The MCP server exposes `analyze_csv_tool` and `generate_chart_tool` to any MCP-compatible client.
+
+See `docs/MCP_GUIDE.md` for architecture details and usage examples.
+
 ### Running Tests
 
 ```bash
@@ -179,4 +210,5 @@ This project is licensed under [CC-BY 4.0](https://creativecommons.org/licenses/
 Built for the [Kaggle AI Agents: Intensive Vibe Coding Capstone 2026](https://www.kaggle.com/competitions/vibecoding-agents-capstone-project) sponsored by Google.
 
 ## Author
+
 Built by [Ameema Rashid](https://github.com/ameema28) for the Kaggle AI Agents Capstone 2026.
