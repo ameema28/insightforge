@@ -17,7 +17,7 @@ load_dotenv()
 
 import streamlit as st
 from agents.runner import InsightForgeRunner
-from security.guardrails import validate_input
+from security.guardrails import validate_input, sanitize_output
 from agents.memory import memory_bank
 
 
@@ -147,20 +147,25 @@ def render_chat():
                     # Run through the ADK multi-agent pipeline
                     response = st.session_state.runner.run(full_prompt)
                     
+                    # Sanitize output before displaying
+                    sanitized_response, was_flagged = sanitize_output(response)
+                    
                     # Display response
-                    st.markdown(response)
+                    if was_flagged:
+                        st.warning("SECURITY: Output contained potentially unsafe content and was sanitized.")
+                    st.markdown(sanitized_response)
                     
                     # Add to history
                     st.session_state.messages.append({
                         "role": "assistant",
-                        "content": response
+                        "content": sanitized_response
                     })
                     
                     # Persist interaction summary
                     memory_bank.set(
                         st.session_state.session_id,
                         "last_interaction",
-                        {"prompt": prompt, "response": response[:200]}
+                        {"prompt": prompt, "response": sanitized_response[:200]}
                     )
                     
                 except Exception as e:

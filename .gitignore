@@ -1,23 +1,33 @@
+# Environment
 .env
+.env.local
+
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
 .venv/
 venv/
+env/
+
+# Generated artifacts
+chart_*.png
 *.png
-*.jpg
-*.jpeg
-*.csv
-*.xlsx
-*.xls
+.memory/
 clips/
-*.mp4
-*.mov
-.DS_Store
-.idea/
-.vscode/
-*.egg-info/
-dist/
-build/
+
+# Testing
 .pytest_cache/
 .coverage
 htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

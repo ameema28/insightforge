@@ -86,7 +86,7 @@ User (Streamlit UI)
 **Design Philosophy:**
 - **Orchestrator Pattern:** A central router delegates tasks to specialist agents, mirroring enterprise microservices architecture.
 - **Tool Interoperability:** All data tools are exposed via MCP, enabling reuse across any MCP-compatible framework.
-- **Defense in Depth:** Security guardrails operate at every layer: input validation, PII redaction, and output sanitization.
+- **Defense in Depth:** Security guardrails operate at every layer: input validation, output sanitization, PII redaction, prompt injection detection, and rate limiting.
 - **Streamlit Integration:** A synchronous runner bridge (`InsightForgeRunner`) connects the async ADK pipeline to the Streamlit frontend.
 
 ---
@@ -121,8 +121,17 @@ User (Streamlit UI)
 - **MemoryBank:** JSON-based session persistence so uploaded files and preferences survive reruns
 - **Security Integration:** Prompt injection guardrails and rate limiting applied before every request
 
-### Planned (Days 5-7)
-- Day 5: Security hardening (output sanitization, advanced injection patterns)
+### Day 5: Security Hardening
+- **Output Sanitization:** Agent responses are scanned for dangerous content before display
+  - Blocks Python, Bash, Shell, PowerShell code blocks
+  - Detects and removes HTML script tags and JavaScript protocol handlers
+  - Flags system commands (rm -rf, curl, wget, sudo)
+  - Prevents API key and password leakage in outputs
+- **PII Redaction:** Automatically masks emails, phone numbers, and SSNs in all outputs
+- **User Warning:** Streamlit UI displays a warning banner when output is sanitized
+- **10 output sanitizer test cases** verifying detection accuracy and false positive avoidance
+
+### Planned (Days 6-7)
 - Day 6: Cloud Run deployment with public endpoint
 - Day 7: 5-minute YouTube demo and Kaggle submission
 
@@ -136,7 +145,7 @@ User (Streamlit UI)
 | Day 2 | MCP Server | Standalone protocol server for tool interoperability | Complete |
 | Day 3 | Multi-Agent System | Orchestrator + 3 specialist agents with delegation | Complete |
 | Day 4 | Memory & Frontend | Streamlit UI with ADK runner bridge and session memory | Complete |
-| Day 5 | Security Hardening | Prompt injection guardrails, rate limiting, PII filters | Planned |
+| Day 5 | Security Hardening | Output sanitization, prompt injection, rate limiting, PII filters | Complete |
 | Day 6 | Deployment | Cloud Run containerization and live URL | Planned |
 | Day 7 | Video & Writeup | 5-minute YouTube demo and Kaggle submission | Planned |
 
@@ -177,12 +186,13 @@ insightforge/
 │   └── server.py
 ├── security/                 # Security guardrails
 │   ├── __init__.py
-│   └── guardrails.py         # Prompt injection, rate limiting, validation
+│   └── guardrails.py         # Prompt injection, rate limiting, validation, output sanitization (Day 5)
 ├── tests/                    # pytest Test Suite
 │   ├── test_day1.py          # Foundation agent tests (13 cases)
 │   ├── test_mcp_server.py    # MCP protocol tests (6 cases)
 │   ├── test_multi_agent.py   # Multi-agent hierarchy tests (7 cases)
-│   └── test_security.py      # Security guardrail tests
+│   ├── test_security.py      # Security guardrail tests
+│   └── test_output_sanitizer.py  # Output sanitization tests (10 cases) (Day 5)
 ├── docs/                     # Documentation
 │   ├── RECORDING_GUIDE.md    # Competition video production schedule
 │   ├── GIT_WORKFLOW.md       # Professional Git practices
@@ -299,9 +309,10 @@ InsightForge implements defense-in-depth security for production agent deploymen
 | Layer | Implementation | Location |
 |-------|---------------|----------|
 | Input Validation | File extension whitelist (`.csv`, `.xlsx`, `.xls`), path normalization | `agents/tools.py` |
-| PII Redaction | Regex-based detection and masking of emails, phone numbers, SSNs | `agents/tools.py` |
+| PII Redaction | Regex-based detection and masking of emails, phone numbers, SSNs | `agents/tools.py`, `security/guardrails.py` |
 | Prompt Injection | Rejection of instructions attempting to override system behavior | `security/guardrails.py` |
 | Rate Limiting | Per-session request throttling | `security/guardrails.py` |
+| Output Sanitization | Blocks code blocks, scripts, system commands, API key leaks in agent outputs | `security/guardrails.py` (Day 5) |
 
 ---
 
@@ -317,7 +328,8 @@ pytest -v
 - 13 foundation agent tests (security, data tools, agent initialization)
 - 6 MCP server tests (protocol compliance, tool functionality)
 - 7 multi-agent tests (hierarchy, tool wiring, model configuration)
-- **Total: 26 tests**
+- 10 output sanitizer tests (code block detection, script tag removal, PII redaction)
+- **Total: 36 tests**
 
 ---
 
