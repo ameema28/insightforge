@@ -92,7 +92,7 @@ class TestDataTools:
         assert result.startswith("SECURITY_ERROR")
 
     def test_generate_chart_success(self):
-        """Chart generation should produce a PNG file."""
+        """Chart generation should return a base64 PNG string."""
         with tempfile.NamedTemporaryFile(suffix=".csv", delete=False, mode="w") as tmp:
             tmp.write("Month,Sales\n")
             tmp.write("Jan,100\n")
@@ -101,10 +101,9 @@ class TestDataTools:
             path = tmp.name
         try:
             result = generate_chart(path, "Month", "Sales", "bar")
-            assert "saved successfully" in result
-            png_path = result.split(": ")[-1]
-            assert os.path.exists(png_path)
-            os.unlink(png_path)
+            # FIXED: agents/tools.py returns base64, not file path
+            assert result.startswith("data:image/png;base64,")
+            assert len(result) > 100  # Ensure it's not empty
         finally:
             os.unlink(path)
 
@@ -139,5 +138,7 @@ class TestAgentInitialization:
     def test_agent_instruction_exists(self):
         """Agent should have detailed system instructions."""
         assert root_agent.instruction is not None
-        assert len(root_agent.instruction) > 100
-        assert "SECURITY" in root_agent.instruction
+        # Handle both str and InstructionProvider types
+        instruction_text = str(root_agent.instruction)
+        assert len(instruction_text) > 100
+        assert "SECURITY" in instruction_text

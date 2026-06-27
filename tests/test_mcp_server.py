@@ -50,7 +50,7 @@ class TestMCPServerTools:
         assert "SECURITY_ERROR" in result or "PROCESSING_ERROR" in result
 
     def test_generate_chart_tool_valid(self):
-        """MCP generate_chart_tool should create a PNG file."""
+        """MCP generate_chart_tool should create a chart (returns base64)."""
         with tempfile.NamedTemporaryFile(suffix=".csv", delete=False, mode="w") as tmp:
             tmp.write("Month,Sales\n")
             tmp.write("Jan,100\n")
@@ -65,10 +65,9 @@ class TestMCPServerTools:
                 y_column="Sales",
                 chart_type="bar"
             )
-            assert "saved successfully" in result
-            png_path = result.split(": ")[-1]
-            assert os.path.exists(png_path)
-            os.unlink(png_path)
+            # FIXED: agents/tools.py returns base64, not file path
+            assert result.startswith("data:image/png;base64,")
+            assert len(result) > 100  # Ensure it's not empty
         finally:
             os.unlink(path)
 

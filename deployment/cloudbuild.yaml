@@ -1,8 +1,19 @@
 steps:
+  # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/insightforge', '.']
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/insightforge:$SHORT_SHA'
+      - '.'
+
+  # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/insightforge']
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/insightforge:$SHORT_SHA'
+
+  # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
@@ -10,21 +21,18 @@ steps:
       - 'deploy'
       - 'insightforge'
       - '--image'
-      - 'gcr.io/$PROJECT_ID/insightforge'
+      - 'gcr.io/$PROJECT_ID/insightforge:$SHORT_SHA'
       - '--region'
       - 'us-central1'
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
-      - '--memory'
-      - '1Gi'
-      - '--cpu'
-      - '1'
-      - '--max-instances'
-      - '5'
       - '--set-env-vars'
-      - 'GOOGLE_API_KEY=${_GOOGLE_API_KEY}'
+      - 'GROQ_API_KEY=${_GROQ_API_KEY},GOOGLE_API_KEY=${_GOOGLE_API_KEY}'
+
 substitutions:
-  _GOOGLE_API_KEY: YOUR_API_KEY_HERE
+  _GROQ_API_KEY: ""  # Set via command line: --substitutions=_GROQ_API_KEY=your_key
+  _GOOGLE_API_KEY: ""  # Set via command line: --substitutions=_GOOGLE_API_KEY=your_key
+
 images:
-  - 'gcr.io/$PROJECT_ID/insightforge'
+  - 'gcr.io/$PROJECT_ID/insightforge:$SHORT_SHA' 

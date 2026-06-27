@@ -9,7 +9,7 @@ import re
 import pandas as pd
 
 
-def _validate_file_path(file_path: str) -> tuple[bool, str]:
+def _validate_file_path(file_path):
     """Security guardrail: Validate file path before processing."""
     if not file_path or not isinstance(file_path, str):
         return False, "Invalid file path provided."
@@ -32,7 +32,7 @@ def _validate_file_path(file_path: str) -> tuple[bool, str]:
     return True, ""
 
 
-def _redact_pii(text: str) -> str:
+def _redact_pii(text):
     """Security guardrail: Redact common PII patterns from text output."""
     text = re.sub(
         r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}",
@@ -52,7 +52,7 @@ def _redact_pii(text: str) -> str:
     return text
 
 
-def analyze_csv(file_path: str) -> str:
+def analyze_csv(file_path):
     """
     Loads a CSV or Excel file and returns a structured summary.
 
@@ -117,45 +117,53 @@ DATA QUALITY FLAGS
         return f"PROCESSING_ERROR: {str(e)}"
 
 
-def generate_chart(file_path: str, x_column: str, y_column: str, chart_type: str = "bar") -> str:
+def generate_chart(file_path, x_column, y_column, chart_type="bar"):
     """
-    Generates a chart from a CSV/Excel file and saves it as a PNG.
-
-    Args:
-        file_path: Path to the data file.
-        x_column: Column name for the X-axis.
-        y_column: Column name for the Y-axis.
-        chart_type: Type of chart ('bar', 'line', 'scatter'). Default is 'bar'.
-
-    Returns:
-        Confirmation message with the saved file path, or error message.
+    Generates a chart from a CSV/Excel file and returns it as a base64 PNG string.
+    Aggregates data if x_column has duplicate values.
     """
+    print(f"DEBUG generate_chart: file={file_path}, x={x_column}, y={y_column}, type={chart_type}")
+
     is_valid, error_msg = _validate_file_path(file_path)
     if not is_valid:
+        print(f"DEBUG validation failed: {error_msg}")
         return f"SECURITY_ERROR: {error_msg}"
 
     try:
         abs_path = os.path.abspath(file_path)
+        print(f"DEBUG abs_path={abs_path}")
+        
         if abs_path.lower().endswith(".csv"):
             df = pd.read_csv(abs_path)
         else:
             df = pd.read_excel(abs_path)
 
+        print(f"DEBUG columns={list(df.columns)}")
+
         if x_column not in df.columns:
+            print(f"DEBUG x_column '{x_column}' not found")
             return f"ERROR: Column '{x_column}' not found. Available: {list(df.columns)}"
         if y_column not in df.columns:
+            print(f"DEBUG y_column '{y_column}' not found")
             return f"ERROR: Column '{y_column}' not found. Available: {list(df.columns)}"
 
         import matplotlib
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
+        import base64
+        import io
+
+        # AGGREGATE: If x has duplicates, sum the y values
+        if df[x_column].duplicated().any():
+            print(f"DEBUG aggregating duplicates on {x_column}")
+            df = df.groupby(x_column, as_index=False)[y_column].sum()
 
         plt.figure(figsize=(10, 6))
 
         if chart_type == "bar":
-            df.plot(x=x_column, y=y_column, kind="bar", ax=plt.gca())
+            df.plot(x=x_column, y=y_column, kind="bar", ax=plt.gca(), legend=False)
         elif chart_type == "line":
-            df.plot(x=x_column, y=y_column, kind="line", ax=plt.gca())
+            df.plot(x=x_column, y=y_column, kind="line", ax=plt.gca(), legend=False, marker='o')
         elif chart_type == "scatter":
             df.plot(x=x_column, y=y_column, kind="scatter", ax=plt.gca())
         else:
@@ -164,13 +172,18 @@ def generate_chart(file_path: str, x_column: str, y_column: str, chart_type: str
         plt.title(f"{y_column} by {x_column}")
         plt.xlabel(x_column)
         plt.ylabel(y_column)
+        plt.xticks(rotation=45, ha='right')
         plt.tight_layout()
 
-        output_path = f"chart_{x_column}_{y_column}.png"
-        plt.savefig(output_path)
-        plt.close()
+        buf = io.BytesIO()
+        plt.savefig(buf, format="png", dpi=150, bbox_inches="tight")
+        buf.seek(0)
+        img_base64 = base64.b64encode(buf.read()).decode("utf-8")
+        plt.close('all')  # Prevent memory leak
 
-        return f"Chart saved successfully: {os.path.abspath(output_path)}"
+        print(f"DEBUG chart generated successfully, base64 length={len(img_base64)}")
+        return f"data:image/png;base64,{img_base64}"
 
     except Exception as e:
+        print(f"DEBUG exception: {type(e).__name__}: {str(e)}")
         return f"PROCESSING_ERROR: {str(e)}"

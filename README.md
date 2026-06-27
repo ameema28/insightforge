@@ -5,7 +5,7 @@
 [![MCP](https://img.shields.io/badge/Protocol-MCP-purple)](https://modelcontextprotocol.io)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-green.svg)](https://creativecommons.org/licenses/by/4.0/)
 
-> **Multi-Agent Business Intelligence System** built with Google ADK & MCP for the [Kaggle AI Agents: Intensive Vibe Coding Capstone 2026](https://www.kaggle.com/competitions/vibecoding-agents-capstone-project) sponsored by Google.
+&gt; **Multi-Agent Business Intelligence System** built with Google ADK & MCP for the [Kaggle AI Agents: Intensive Vibe Coding Capstone 2026](https://www.kaggle.com/competitions/vibecoding-agents-capstone-project) sponsored by Google.
 
 ---
 
@@ -44,23 +44,21 @@ Business analysts spend approximately 40% of their time on repetitive data tasks
 ---
 
 ## Solution Architecture
-
-```
 User (Streamlit UI)
-    |
-    v
+|
+v
 +---------------------+
 |  InsightForgeRunner |  <-- Sync bridge over async ADK Runner
 |  (Streamlit Bridge) |
 +----------+----------+
-           |
-           v
+|
+v
 +---------------------+
 |  Orchestrator Agent |  <-- Routes tasks, manages session state
 |     (ADK)           |
 +------+------+-------+
-       |      |
-       v      v
+|      |
+v      v
 +----------+  +--------------+
 |Data Scout|  |   Analyst    |
 |  Agent   |  |    Agent     |
@@ -70,24 +68,25 @@ User (Streamlit UI)
 |- load    |  |- correlate   |
 |- quality |  |- visualize   |
 +----------+  +--------------+
-       |              |
-       +------+-------+
-              |
-              v
-       +--------------+
-       | Report Writer|
-       |    Agent       |
-       |              |
-       |- summarize   |
-       |- recommend   |
-       +--------------+
-```
+|              |
++------+-------+
+|
+v
++--------------+
+| Report Writer|
+|    Agent       |
+|              |
+|- summarize   |
+|- recommend   |
++--------------+
+
 
 **Design Philosophy:**
 - **Orchestrator Pattern:** A central router delegates tasks to specialist agents, mirroring enterprise microservices architecture.
 - **Tool Interoperability:** All data tools are exposed via MCP, enabling reuse across any MCP-compatible framework.
 - **Defense in Depth:** Security guardrails operate at every layer: input validation, output sanitization, PII redaction, prompt injection detection, and rate limiting.
 - **Streamlit Integration:** A synchronous runner bridge (`InsightForgeRunner`) connects the async ADK pipeline to the Streamlit frontend.
+- **API Resilience:** Groq API is primary for text generation (20 req/min free tier); Gemini is fallback for ADK multi-agent traces. In-memory caching reduces redundant API calls.
 
 ---
 
@@ -96,7 +95,7 @@ User (Streamlit UI)
 ### Day 1: Foundation Agent
 - Single ADK agent with natural language data analysis
 - `analyze_csv` tool: automated data profiling, schema detection, missing value reporting
-- `generate_chart` tool: matplotlib visualization generation (bar, line, scatter)
+- `generate_chart` tool: matplotlib visualization generation (bar, line, scatter) with base64 output for Streamlit
 - Enterprise-grade security: file extension whitelist, path traversal protection, PII redaction
 - 13 pytest test cases covering security, data tools, and agent initialization
 
@@ -116,7 +115,7 @@ User (Streamlit UI)
 - Full delegation chain demonstrated in ADK Web UI with trace visualization
 
 ### Day 4: Streamlit Frontend & Runner Bridge
-- **Streamlit UI:** File upload (CSV/Excel), chat interface with message history, session info sidebar
+- **Streamlit UI:** File upload (CSV/Excel), chat interface with message history, session info sidebar, API status indicators, chat export
 - **InsightForgeRunner:** Synchronous bridge over async ADK `Runner` for Streamlit compatibility
 - **MemoryBank:** JSON-based session persistence so uploaded files and preferences survive reruns
 - **Security Integration:** Prompt injection guardrails and rate limiting applied before every request
@@ -126,14 +125,17 @@ User (Streamlit UI)
   - Blocks Python, Bash, Shell, PowerShell code blocks
   - Detects and removes HTML script tags and JavaScript protocol handlers
   - Flags system commands (rm -rf, curl, wget, sudo)
-  - Prevents API key and password leakage in outputs
-- **PII Redaction:** Automatically masks emails, phone numbers, and SSNs in all outputs
+  - Prevents API key, password, token, and credit card leakage in outputs
+- **PII Redaction:** Automatically masks emails, phone numbers, SSNs, and IP addresses in all outputs
 - **User Warning:** Streamlit UI displays a warning banner when output is sanitized
 - **10 output sanitizer test cases** verifying detection accuracy and false positive avoidance
 
-### Planned (Days 6-7)
-- Day 6: Cloud Run deployment with public endpoint
-- Day 7: 5-minute YouTube demo and Kaggle submission
+### Day 6: Deployment & API Resilience
+- **Groq Primary Fallback:** Groq API (llama-3.3-70b) is primary LLM for text generation; Gemini is fallback for ADK traces
+- **In-Memory Caching:** Identical prompts return cached responses, reducing API costs
+- **Chart Aggregation:** Duplicate x-axis values are automatically summed before plotting
+- **Docker Containerization:** Production-ready Dockerfile with healthcheck and security-hardened base image
+- **Cloud Run Ready:** Configured for Google Cloud Run serverless deployment with dual API key support
 
 ---
 
@@ -146,8 +148,8 @@ User (Streamlit UI)
 | Day 3 | Multi-Agent System | Orchestrator + 3 specialist agents with delegation | Complete |
 | Day 4 | Memory & Frontend | Streamlit UI with ADK runner bridge and session memory | Complete |
 | Day 5 | Security Hardening | Output sanitization, prompt injection, rate limiting, PII filters | Complete |
-| Day 6 | Deployment | Cloud Run containerization and live URL | Planned |
-| Day 7 | Video & Writeup | 5-minute YouTube demo and Kaggle submission | Planned |
+| Day 6 | Deployment & Resilience | Groq fallback, caching, Docker, Cloud Run config, test sync | Complete |
+| Day 7 | Video & Writeup | 5-minute YouTube demo and Kaggle submission | In Progress |
 
 ---
 
@@ -157,59 +159,61 @@ User (Streamlit UI)
 |-----------|------------|---------|
 | Agent Framework | Google ADK | Multi-agent orchestration and lifecycle management |
 | Tool Protocol | MCP (Model Context Protocol) | Universal tool interface for cross-framework compatibility |
-| LLM | Gemini 2.5 Flash | Natural language reasoning and task planning |
+| LLM Primary | Groq (llama-3.3-70b-versatile) | Fast, cost-effective text generation with high rate limits |
+| LLM Fallback | Gemini 2.5 Flash | Natural language reasoning and ADK multi-agent traces |
 | Data Processing | pandas, openpyxl | CSV/Excel ingestion and manipulation |
-| Visualization | matplotlib, seaborn | Chart and graph generation |
+| Visualization | matplotlib, seaborn | Chart and graph generation with base64 output |
 | Frontend | Streamlit | User-facing web interface |
 | Cloud | Google Cloud Run | Serverless deployment |
 | Dev Environment | Antigravity IDE | Agent-first development workspace |
-| Testing | pytest | Unit and integration test suite |
+| Testing | pytest | Unit and integration test suite (47 tests) |
+| Container | Docker | Production containerization with healthcheck |
 
 ---
 
 ## Project Structure
-
-```
 insightforge/
 ├── app.py                    # Streamlit frontend (Day 4)
 ├── agents/                   # ADK Multi-Agent Application
-│   ├── __init__.py           # Exports orchestrator as root_agent
+│   ├── init.py           # Exports orchestrator as root_agent
 │   ├── orchestrator.py       # Central router (Day 3)
 │   ├── data_scout.py         # Data loading & validation specialist (Day 3)
 │   ├── analyst.py            # Statistical analysis & visualization (Day 3)
 │   ├── report_writer.py      # Executive summary generation (Day 3)
 │   ├── agent.py              # Legacy single-agent foundation (Day 1)
 │   ├── tools.py              # Data analysis tools with security guardrails
-│   ├── runner.py             # Streamlit sync bridge over ADK Runner (Day 4)
+│   ├── runner.py             # Streamlit sync bridge with Groq fallback (Day 6)
 │   └── memory.py             # JSON-based session persistence (Day 4)
 ├── mcp_server/               # Model Context Protocol Server (Day 2)
 │   └── server.py
 ├── security/                 # Security guardrails
-│   ├── __init__.py
+│   ├── init.py
 │   └── guardrails.py         # Prompt injection, rate limiting, validation, output sanitization (Day 5)
 ├── tests/                    # pytest Test Suite
 │   ├── test_day1.py          # Foundation agent tests (13 cases)
 │   ├── test_mcp_server.py    # MCP protocol tests (6 cases)
 │   ├── test_multi_agent.py   # Multi-agent hierarchy tests (7 cases)
-│   ├── test_security.py      # Security guardrail tests
-│   └── test_output_sanitizer.py  # Output sanitization tests (10 cases) (Day 5)
+│   ├── test_security.py      # Security guardrail tests (7 cases)
+│   └── test_output_sanitizer.py  # Output sanitization tests (10 cases)
+├── tools/                    # Re-exports from agents.tools (Day 6)
+│   └── init.py
 ├── docs/                     # Documentation
 │   ├── RECORDING_GUIDE.md    # Competition video production schedule
 │   ├── GIT_WORKFLOW.md       # Professional Git practices
 │   ├── MCP_GUIDE.md          # Protocol architecture documentation
 │   └── WRITEUP.md            # Kaggle submission writeup template
-├── deployment/               # Cloud Run Configuration (Day 6)
+├── deployment/               # Cloud Run Configuration
 │   └── cloudbuild.yaml
 ├── requirements.txt          # Python dependencies
 ├── pytest.ini               # Test configuration
 ├── .env.example             # Environment variable template
 ├── .gitignore               # Git exclusion rules
-├── Dockerfile               # Container image definition (Day 4)
-├── .dockerignore            # Docker build exclusions (Day 4)
+├── Dockerfile               # Container image definition (Day 6)
+├── .dockerignore            # Docker build exclusions (Day 6)
 ├── root_agent.py            # Root-level agent re-export for CLI
 ├── sample_sales.csv         # Demo dataset
 └── README.md                # This file
-```
+
 
 ---
 
@@ -218,7 +222,8 @@ insightforge/
 ### Prerequisites
 
 - Python 3.10 or higher
-- [Google AI Studio API Key](https://aistudio.google.com/app/apikey)
+- [Groq API Key](https://console.groq.com) (free tier: 20 requests/minute)
+- [Google AI Studio API Key](https://aistudio.google.com/app/apikey) (fallback)
 - Git
 
 ### Installation
@@ -242,141 +247,103 @@ pip install -r requirements.txt
 
 # Configure environment
 cp .env.example .env
-# Edit .env and paste your GOOGLE_API_KEY
-```
+# Edit .env and paste your GROQ_API_KEY and GOOGLE_API_KEY
 
----
+Usage
 
-## Usage
-
-### Streamlit Frontend (Day 4)
-
+Streamlit Frontend
 Launch the web UI and interact with the full agent chain:
-
-```bash
 streamlit run app.py
-```
+Upload sample_sales.csv via the sidebar
 
-1. Upload `sample_sales.csv` via the sidebar
-2. Type a natural language request:
-
-> *"Show me revenue by region as a bar chart"*
+Type a natural language request:
+"Show me revenue by region as a bar chart"
 
 The Orchestrator automatically delegates:
-1. **Data Scout** loads and validates the file
-2. **Analyst** generates insights and charts
-3. **Report Writer** produces an executive summary
+Data Scout loads and validates the file
+Analyst generates insights and charts
+Report Writer produces an executive summary
 
-### Multi-Agent System (Day 3)
-
+Multi-Agent System (ADK Web)
 Launch via ADK Web for trace visualization:
-
-```bash
 adk web
-```
+Select "agents" from the app list
+Select "insightforge_orchestrator"
+Click "New Session"
+Type a natural language request
 
-1. Select **"agents"** from the app list
-2. Select **"insightforge_orchestrator"**
-3. Click **"New Session"**
-4. Type a natural language request
-
-### MCP Server (Day 2)
-
+MCP Server
 Run the standalone protocol server:
-
-```bash
 # Stdio transport mode
 python mcp_server/server.py
-
 # Or inspect with MCP dev tools
 mcp dev mcp_server/server.py
-```
 
-### Single Agent (Day 1 Legacy)
-
+Single Agent (Legacy)
 For backward compatibility:
-
-```bash
 adk run root_agent
-```
 
----
-
-## Security
-
+Security
 InsightForge implements defense-in-depth security for production agent deployments:
+| Layer               | Implementation                                                                               | Location                                    |
+| ------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| Input Validation    | File extension whitelist (`.csv`, `.xlsx`, `.xls`), path normalization                       | `agents/tools.py`                           |
+| PII Redaction       | Regex-based detection and masking of emails, phone numbers, SSNs, IP addresses, credit cards | `agents/tools.py`, `security/guardrails.py` |
+| Prompt Injection    | Rejection of instructions attempting to override system behavior                             | `security/guardrails.py`                    |
+| Rate Limiting       | Per-session request throttling                                                               | `security/guardrails.py`                    |
+| Output Sanitization | Blocks code blocks, scripts, system commands, API key/token/password/credit card leaks       | `security/guardrails.py`                    |
 
-| Layer | Implementation | Location |
-|-------|---------------|----------|
-| Input Validation | File extension whitelist (`.csv`, `.xlsx`, `.xls`), path normalization | `agents/tools.py` |
-| PII Redaction | Regex-based detection and masking of emails, phone numbers, SSNs | `agents/tools.py`, `security/guardrails.py` |
-| Prompt Injection | Rejection of instructions attempting to override system behavior | `security/guardrails.py` |
-| Rate Limiting | Per-session request throttling | `security/guardrails.py` |
-| Output Sanitization | Blocks code blocks, scripts, system commands, API key leaks in agent outputs | `security/guardrails.py` (Day 5) |
-
----
-
-## Testing
-
+Testing
 Run the full test suite:
-
-```bash
 pytest -v
-```
 
-**Current Coverage:**
-- 13 foundation agent tests (security, data tools, agent initialization)
-- 6 MCP server tests (protocol compliance, tool functionality)
-- 7 multi-agent tests (hierarchy, tool wiring, model configuration)
-- 10 output sanitizer tests (code block detection, script tag removal, PII redaction)
-- **Total: 36 tests**
+Current Coverage: 47 tests
+13 foundation agent tests (security, data tools, agent initialization)
+6 MCP server tests (protocol compliance, tool functionality)
+7 multi-agent tests (hierarchy, tool wiring, model configuration)
+7 security guardrail tests (prompt injection, rate limiting, input validation)
+10 output sanitizer tests (code block detection, script tag removal, PII redaction, API key leak prevention)
 
----
-
-## Deployment
-
-### Local Docker Test
-
-```bash
+Deployment
+Local Docker Test
+# Build the image
 docker build -t insightforge .
-docker run -p 8080:8080 -e GOOGLE_API_KEY=your_key insightforge
-```
 
-### Cloud Run (Day 6)
+# Run locally
+docker run -p 8080:8080 \
+  -e GROQ_API_KEY=your_groq_key \
+  -e GOOGLE_API_KEY=your_google_key \
+  insightforge
 
-```bash
+Google Cloud Run
+# Using Cloud Build (recommended)
 gcloud builds submit --config deployment/cloudbuild.yaml \
-  --substitutions=_GOOGLE_API_KEY=your_api_key
-```
+  --substitutions=_GROQ_API_KEY=your_groq_key,_GOOGLE_API_KEY=your_google_key
 
-- **Live Demo:** Coming soon (Day 6)
-- **Video Demo:** Coming soon (Day 7)
-- **Kaggle Writeup:** [Draft created](https://www.kaggle.com/competitions/vibecoding-agents-capstone-project)
+# Or deploy directly
+gcloud run deploy insightforge \
+  --source . \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --set-env-vars GROQ_API_KEY=your_groq_key,GOOGLE_API_KEY=your_google_key
 
----
+Environment Variables Required:
+GROQ_API_KEY — Primary LLM for text generation
+GOOGLE_API_KEY — Fallback for ADK multi-agent traces
 
-## Documentation
+Documentation
+| Document                  | Description                                                  |
+| ------------------------- | ------------------------------------------------------------ |
+| `docs/RECORDING_GUIDE.md` | Competition video production schedule                        |
+| `docs/GIT_WORKFLOW.md`    | Professional Git practices and commit conventions            |
+| `docs/MCP_GUIDE.md`       | Model Context Protocol architecture and integration patterns |
+| `docs/WRITEUP.md`         | Kaggle submission writeup template (under 2,500 words)       |
 
-| Document | Description |
-|----------|-------------|
-| `docs/RECORDING_GUIDE.md` | Daily recording schedule and video production guide for the 5-minute competition submission |
-| `docs/GIT_WORKFLOW.md` | Professional Git practices, commit conventions, and portfolio optimization |
-| `docs/MCP_GUIDE.md` | Model Context Protocol architecture, usage examples, and integration patterns |
-| `docs/WRITEUP.md` | Kaggle submission writeup template (under 2,500 words) |
-
----
-
-## License
-
-This project is licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/), as required by the Kaggle competition rules.
-
----
-
-## Author
-
-**Ameema Rashid**
-- GitHub: [@ameema28](https://github.com/ameema28)
-- Project: [InsightForge](https://github.com/ameema28/insightforge)
-- Competition: [Kaggle AI Agents Capstone 2026](https://www.kaggle.com/competitions/vibecoding-agents-capstone-project)
-
+License
+This project is licensed under CC-BY 4.0, as required by the Kaggle competition rules.
+Author
+Ameema Rashid
+GitHub: @ameema28
+Project: InsightForge
+Competition: Kaggle AI Agents Capstone 2026
 Built for the Kaggle AI Agents: Intensive Vibe Coding Capstone 2026 sponsored by Google.

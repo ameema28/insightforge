@@ -1,0 +1,11 @@
+Date,Product,Region,Revenue,Units
+2026-01-01,Laptop,North,1200,2
+2026-01-02,Mouse,East,25,5
+2026-01-03,Laptop,West,1200,1
+2026-01-04,Keyboard,North,75,3
+2026-01-05,Monitor,East,300,1
+2026-01-06,Laptop,South,1200,2
+2026-01-07,Mouse,West,25,10
+2026-01-08,Keyboard,East,75,2
+2026-01-09,Monitor,North,300,2
+2026-01-10,Laptop,East,1200,1
