@@ -108,14 +108,13 @@ class OutputSanitizer:
     """
 
     DANGEROUS_PATTERNS = [
-        r"```\s*(python|bash|sh|shell|cmd|powershell)",
-        r"<script.*?>.*?</script>",
-        r"javascript:",
-        r"on\w+\s*=.*?alert\s*\(",
-        r"\b(rm\s+-rf|sudo\s+|chmod\s+|curl\s+.*\||wget\s+.*\|)",
-        r"\b(api_key|apikey|password|secret|token)\s*[:=]\s*['\"]",
-        r"\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b",  # Credit cards
-        r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b",       # IP addresses
+    r"```\s*(python|bash|sh|shell|cmd|powershell)",
+    r"javascript:",
+    r"on\w+\s*=.*?alert\s*\(",
+    r"\b(rm\s+-rf|sudo\s+|chmod\s+|curl\s+.*\||wget\s+.*\|)",
+    r"\b(api_key|apikey|password|secret|token)\s*[:=]\s*['\"]",
+    r"\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b",  # Credit cards
+    r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b",  # IP addresses
     ]
 
     def __init__(self):
