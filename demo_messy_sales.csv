@@ -1,0 +1,271 @@
+order_id;customer;product;region;amount;quantity;status;order_date
+ORD-1030;Kim Min-jae;Headset;North;;37;paid;2025-02-07 00:00:00
+ORD-1116;Lucas Silva;HEADSET;North;59.45;30;refunded;2025-12-11 00:00:00
+ORD-1079;Lucas Silva;Webcam;West;868.25;17;cancelled;2025-02-28 00:00:00
+ORD-1127;Björn Andersson;SSD;West;1295.26;33;pending;2026-04-30 00:00:00
+ORD-1196;Chen Wei;Keyboard;Central;406.63;47;;2025-06-22 00:00:00
+ORD-1137;Ahmed Hassan;Laptop;Central;2077.92;12;refunded;2025-12-26 00:00:00
+ORD-1209;Ann Lee;Keyboard;Central;370.96;21;pending;2025-07-21 00:00:00
+ORD-1045;Olga Petrova;Monitor;East;2373.46;40;refunded;2025-12-06 00:00:00
+ORD-1158;François Dubois;Keyboard;East;1648.74;9;;2025-12-29 00:00:00
+ORD-1247;Dvořák Systems;Monitor;East;$2307.51;6;;2026-01-06 00:00:00
+ORD-1183;Østergaard A/S;HEADSET;Central;704.52;4;paid;2025-12-10 00:00:00
+ORD-1268;"Smith, John; Doe, Jane";"Laptop;Mouse";"North;South";"1200;25";"2;5";"paid;pending";2026-01-15 00:00:00
+ORD-1227;Emma Wilson;Docking Station;West;239.68;12;pending;2025-09-02 00:00:00
+ORD-1082;Østergaard A/S;Docking Station;East;174.07;7;pending;2025-11-17 00:00:00
+ORD-1165;Raj Patel;SSD;East;1269.69;11;pending;2026-02-15 00:00:00
+ORD-1194;Bob Smith;Laptop;;777.71;46;pending;2025-06-27 00:00:00
+ORD-1226;David Cohen;Webcam;South;;19;;2025-12-12 00:00:00
+ORD-1146;Dvořák Systems;Headset;South;1554.86;24;paid;2025-08-12 00:00:00
+ORD-1104;François Dubois;Webcam;South;1099.08;41;paid;2025-08-16 00:00:00
+ORD-1060;Ahmed Hassan;Keyboard;West;2452.29;26;;2025-10-16 00:00:00
+ORD-1221;Björn Andersson;SSD;North;365.23;11;cancelled;2025-12-01 00:00:00
+;;;;;;;
+ORD-1046;Lucas Silva;Webcam;Central;1035.77;19;;2025-03-07 00:00:00
+ORD-1042;München Tech;Mouse;East;1285.78;35;refunded;2026-04-26 00:00:00
+ORD-1185;René & Co;Headset;East;1428.93;44;cancelled;2026-05-01 00:00:00
+ORD-1009;Raj Patel;Headset;South;1004.19;30;pending;2025-05-16 00:00:00
+ORD-1022;Lucas Silva;Mouse;North;864.77;16;pending;2025-04-08 00:00:00
+ORD-1199;James Brown;  Docking Station  ;East;1729.32;27;cancelled;2025-08-26 00:00:00
+ORD-1109;Lucas Silva;Docking Station;West;968.88;19;refunded;2025-01-12 00:00:00
+ORD-1024;Müller GmbH;Laptop;North;2125.52;32;cancelled;2025-04-20 00:00:00
+ORD-1113;Cañada Corp;Mouse;East;1053.37;35;refunded;2025-09-29 00:00:00
+ORD-1068;Müller GmbH;Docking Station;East;;1;cancelled;2026-02-26 00:00:00
+ORD-1144;Naïve Solutions;Monitor;Central;1678.42;26;paid;2025-08-12 00:00:00
+ORD-1224;Ann Lee;Webcam;North;;7;refunded;2025-05-26 00:00:00
+ORD-1189;James Brown;Headset;East;1386.24;20;pending;2025-12-31 00:00:00
+ORD-1006;Kim Min-jae;Keyboard;East;1683.68;44;paid;2025-11-08 00:00:00
+ORD-1120;David Cohen;Docking Station;Central;407.44;7;cancelled;2025-11-12 00:00:00
+ORD-1067;Raj Patel;Monitor;North;771.42;8;;2026-02-05 00:00:00
+ORD-1119;Müller GmbH;SSD;North;2220.97;30;refunded;2025-12-10 00:00:00
+ORD-1118;Maria Santos;Mouse;West;772.92;9;paid;2026-04-30 00:00:00
+ORD-1025;Lucas Silva;Laptop;South;2463.64;30;refunded;2025-08-05 00:00:00
+ORD-1125;Sørensen AS;Keyboard;South;2001.32;2;pending;2025-01-08 00:00:00
+ORD-1244;Sørensen AS;Keyboard;;141.04;42;cancelled;2026-02-07 00:00:00
+ORD-1019;Raj Patel;Monitor;North;;15;paid;2026-04-09 00:00:00
+ORD-1077;Žižka Enterprises;Monitor;East;469.12;;;2025-03-06 00:00:00
+ORD-1216;Cañada Corp;Webcam;Central;2394.41;20;pending;2026-04-28 00:00:00
+ORD-1090;Sophie Martin;Mouse;West;849.94;11;refunded;2025-07-30 00:00:00
+ORD-1208;Cañada Corp;Monitor;Central;1262.69;9;refunded;2026-02-16 00:00:00
+ORD-1093;Østergaard A/S;Monitor;East;2320.99;45;cancelled;2025-03-04 00:00:00
+ORD-1180;James Brown;Docking Station;West;981.95;32;cancelled;2025-07-08 00:00:00
+ORD-1015;Emma Wilson;Laptop;Central;73.2;20;pending;2025-01-30 00:00:00
+ORD-1152;Cañada Corp;  Webcam  ;West;165.8;5;paid;2025-11-11 00:00:00
+ORD-1232;Ahmed Hassan;Monitor;Central;227.63;46;refunded;2025-02-09 00:00:00
+ORD-1048;Åsa Lindqvist;Headset;West;1697.18;48;pending;2025-12-04 00:00:00
+ORD-1115;Björn Andersson;  Mouse  ;South;583.4;44;cancelled;2026-05-11 00:00:00
+ORD-1033;Ahmed Hassan;Keyboard;East;289.91;18;refunded;2025-11-06 00:00:00
+ORD-1184;Kim Min-jae;KEYBOARD;North;1528.74;3;pending;2025-02-04 00:00:00
+ORD-1142;Ahmed Hassan;SSD;Central;137.41;39;paid;2025-01-04 00:00:00
+ORD-1197;Sophie Martin;Laptop;North;2372.65;17;pending;2026-01-28 00:00:00
+ORD-1037;Sophie Martin;Keyboard;West;787.94;3;refunded;2025-04-18 00:00:00
+ORD-1016;René & Co;Mouse;North;2044.66;35;pending;2025-03-07 00:00:00
+ORD-1075;Bob Smith;Headset;East;695.52;8;pending;2025-06-11 00:00:00
+ORD-1148;München Tech;Mouse;Central;1338.25;50;refunded;2025-06-29 00:00:00
+ORD-1010;Naïve Solutions;Webcam;Central;1469.24;9;;2025-09-10 00:00:00
+ORD-1233;Raj Patel;Monitor;Central;432.23;29;paid;2025-12-15 00:00:00
+ORD-1066;Žižka Enterprises;Laptop;East;2272.36;46;pending;2025-02-08 00:00:00
+ORD-1030;Kim Min-jae;Headset;North;;37;paid;2025-02-07 00:00:00
+ORD-1225;Østergaard A/S;SSD;South;1183.35;8;refunded;2025-03-25 00:00:00
+ORD-1182;München Tech;Headset;East;1516.49;45;cancelled;2025-06-29 00:00:00
+ORD-1073;Åsa Lindqvist;Docking Station;West;619.8;46;cancelled;2025-08-18 00:00:00
+ORD-1018;Žižka Enterprises;Headset;West;$1142.43;5;refunded;2025-01-11 00:00:00
+ORD-1101;Müller GmbH;Headset;North;1114.76;30;paid;2026-01-05 00:00:00
+ORD-1195;Bob Smith;Mouse;East;2391.97;41;refunded;2025-11-11 00:00:00
+ORD-1112;Emma Wilson;Keyboard;North;1624.69;29;paid;2025-10-24 00:00:00
+ORD-1170;Sophie Martin;Keyboard;West;38.0;17;pending;2026-03-04 00:00:00
+ORD-1086;Müller GmbH;Webcam;Central;1433.79;8;cancelled;2025-12-19 00:00:00
+ORD-1055;Kim Min-jae;SSD;North;605.37;35;paid;2025-03-12 00:00:00
+ORD-1097;Emma Wilson;Docking Station;East;1281.65;19;refunded;2026-03-05 00:00:00
+ORD-1200;Åsa Lindqvist;  Keyboard  ;East;815.31;23;cancelled;2025-03-08 00:00:00
+ORD-1038;Ahmed Hassan;Mouse;East;2213.23;40;pending;2026-04-19 00:00:00
+ORD-1154;Åsa Lindqvist;SSD;Central;178.14;22;paid;2025-09-16 00:00:00
+ORD-1084;Maria Santos;Laptop;South;724.73;5;pending;2026-04-19 00:00:00
+ORD-1246;René & Co;Keyboard;West;1416.91;36;;2025-03-10 00:00:00
+ORD-1092;Emma Wilson;Laptop;Central;159.16;40;cancelled;2025-11-17 00:00:00
+ORD-1201;Emma Wilson;Mouse;East;328.24;10;paid;2025-01-26 00:00:00
+ORD-1126;Cañada Corp;Monitor;Central;456.26;48;cancelled;2025-09-27 00:00:00
+ORD-1124;Sophie Martin;Monitor;Central;2177.5;10;;2025-01-02 00:00:00
+ORD-1078;Sørensen AS;Laptop;Central;2361.62;49;cancelled;2025-02-22 00:00:00
+ORD-1181;James Brown;Mouse;West;;12;;2025-05-31 00:00:00
+ORD-1111;Ann Lee;Webcam;South;896.99;40;refunded;2025-12-14 00:00:00
+ORD-1229;David Cohen;Webcam;East;178.76;20;pending;2025-07-27 00:00:00
+ORD-1234;Åsa Lindqvist;SSD;North;1127.57;9;;2025-08-01 00:00:00
+ORD-1154;Åsa Lindqvist;SSD;N/A;178.14;22;paid;2025-09-16 00:00:00
+ORD-1210;Maria Santos;Webcam;Central;2075.02;46;;2025-06-03 00:00:00
+ORD-1193;François Dubois;Headset;South;1956.15;12;pending;2025-08-10 00:00:00
+ORD-1155;Kim Min-jae;Monitor;West;1322.07;24;refunded;2026-04-15 00:00:00
+ORD-1069;Ann Lee;Headset;West;$1102.83;42;refunded;2025-11-12 00:00:00
+ORD-1002;René & Co;Webcam;North;420.16;18;pending;2025-04-21 00:00:00
+ORD-1076;Björn Andersson;Keyboard;South;1223.39;49;;2025-11-02 00:00:00
+ORD-1147;Lucas Silva;Docking Station;Central;219.65;48;refunded;2025-04-24 00:00:00
+ORD-1139;Naïve Solutions;Laptop;North;557.45;22;pending;2025-07-09 00:00:00
+ORD-1143;Åsa Lindqvist;Monitor;South;741.38;32;cancelled;2025-03-31 00:00:00
+ORD-1096;René & Co;Keyboard;West;1508.46;9;paid;2025-05-22 00:00:00
+ORD-1108;Chen Wei;SSD;East;765.41;45;refunded;2025-08-22 00:00:00
+ORD-1140;Žižka Enterprises;Mouse;North;1892.23;6;refunded;2025-08-15 00:00:00
+ORD-1173;René & Co;Webcam;West;;37;cancelled;2025-04-06 00:00:00
+ORD-1052;Łukaszewicz Ltd;SSD;North;2295.74;9;cancelled;2025-12-08 00:00:00
+ORD-1074;James Brown;Webcam;N/A;627.18;24;cancelled;2025-10-11 00:00:00
+ORD-1117;David Cohen;Docking Station;East;603.71;;;2025-06-17 00:00:00
+ORD-1029;Maria Santos;Headset;East;1797.57;26;pending;2025-12-10 00:00:00
+ORD-1215;Naïve Solutions;Headset;West;801.54;35;refunded;2025-10-07 00:00:00
+ORD-1192;Dvořák Systems;SSD;Central;1038.35;9;refunded;2025-11-25 00:00:00
+ORD-1234;Åsa Lindqvist;SSD;North;1127.57;9;;2025-08-01 00:00:00
+ORD-1177;Kim Min-jae;SSD;West;2033.46;50;cancelled;2025-01-19 00:00:00
+ORD-1101;Müller GmbH;Headset;North;1114.76;30;paid;2026-01-05 00:00:00
+ORD-1005;Olga Petrova;Monitor;East;2141.91;25;refunded;2025-08-21 00:00:00
+ORD-1056;Naïve Solutions;Keyboard;South;;35;cancelled;2025-08-01 00:00:00
+ORD-1178;Žižka Enterprises;Monitor;North;792.44;35;cancelled;2025-05-10 00:00:00
+ORD-1175;Dvořák Systems;Laptop;West;652.78;;paid;2025-06-26 00:00:00
+ORD-1164;David Cohen;Monitor;Central;2414.85;13;refunded;2025-12-14 00:00:00
+ORD-1065;Olga Petrova;Headset;South;$2410.24;50;pending;2026-05-09 00:00:00
+ORD-1157;Björn Andersson;Docking Station;East;2132.63;39;pending;2025-06-20 00:00:00
+ORD-1085;Sørensen AS;Monitor;West;581.4;18;pending;2025-02-06 00:00:00
+ORD-1114;Bob Smith;Keyboard;East;2361.86;19;refunded;2026-02-16 00:00:00
+ORD-1245;Bob Smith;Docking Station;West;956.74;31;pending;2026-03-11 00:00:00
+ORD-1172;James Brown;Mouse;North;1262.08;41;;2025-10-22 00:00:00
+ORD-1031;Chen Wei;Webcam;South;2205.14;24;refunded;2025-03-22 00:00:00
+ORD-1012;Maria Santos;Webcam;Central;53.42;44;;2026-01-20 00:00:00
+ORD-1035;Łukaszewicz Ltd;Laptop;North;348.78;11;cancelled;2025-10-10 00:00:00
+ORD-1028;Lucas Silva;Mouse;South;2355.45;38;;2025-01-21 00:00:00
+ORD-1132;David Cohen;Docking Station;East;951.4;31;paid;2025-02-16 00:00:00
+ORD-1051;Olga Petrova;SSD;West;1648.74;;paid;2026-02-03 00:00:00
+ORD-1095;Björn Andersson;Keyboard;West;747.36;27;cancelled;2025-08-30 00:00:00
+ORD-1167;Björn Andersson;Keyboard;East;1295.55;6;pending;2026-02-23 00:00:00
+ORD-1179;Müller GmbH;Monitor;East;1957.58;22;refunded;2025-03-05 00:00:00
+ORD-1041;Åsa Lindqvist;SSD;East;1993.48;2;pending;2025-07-24 00:00:00
+ORD-1246;René & Co;Keyboard;West;1416.91;36;;2025-03-10 00:00:00
+ORD-1176;René & Co;Mouse;Central;847.98;35;refunded;2026-02-21 00:00:00
+ORD-1136;Lucas Silva;Mouse;;2022.87;50;;2025-11-11 00:00:00
+ORD-1026;Olga Petrova;SSD;South;563.81;48;;2025-02-01 00:00:00
+ORD-1234;Åsa Lindqvist;SSD;North;1127.57;9;;2025-08-01 00:00:00
+ORD-1141;Ahmed Hassan;SSD;West;1893.48;28;paid;2025-05-26 00:00:00
+ORD-1159;François Dubois;Docking Station;East;1683.54;48;;2025-02-17 00:00:00
+ORD-1000;Kim Min-jae;Webcam;South;1847.77;35;paid;2025-10-30 00:00:00
+ORD-1231;Naïve Solutions;SSD;Central;1762.3;49;;2026-02-15 00:00:00
+ORD-1100;Ann Lee;Docking Station;;1986.17;10;cancelled;2026-05-09 00:00:00
+ORD-1241;Åsa Lindqvist;Laptop;West;1765.63;48;paid;2025-07-25 00:00:00
+ORD-1202;Žižka Enterprises;Docking Station;South;2258.22;37;refunded;2025-04-08 00:00:00
+ORD-1098;Raj Patel;SSD;South;1223.74;49;;2025-07-13 00:00:00
+ORD-1036;Olga Petrova;LAPTOP;North;;10;;2025-01-19 00:00:00
+ORD-1061;Ahmed Hassan;Docking Station;South;474.78;21;pending;2025-08-21 00:00:00
+ORD-1150;Emma Wilson;SSD;Central;1136.04;37;;2025-06-15 00:00:00
+ORD-1212;Ann Lee;Monitor;North;447.02;40;cancelled;2025-03-17 00:00:00
+ORD-1122;Ahmed Hassan;Headset;North;494.78;30;paid;2025-12-06 00:00:00
+ORD-1011;François Dubois;Mouse;South;1985.4;5;cancelled;2025-07-15 00:00:00
+;;;;;;;
+ORD-1230;Ahmed Hassan;  Webcam  ;North;2353.07;15;pending;2026-05-06 00:00:00
+ORD-1027;David Cohen;Laptop;Central;2300.48;4;;2025-02-11 00:00:00
+ORD-1178;Žižka Enterprises;Monitor;North;792.44;35;cancelled;2025-05-10 00:00:00
+ORD-1004;Björn Andersson;Docking Station;North;2077.78;24;;2025-04-09 00:00:00
+ORD-1122;Ahmed Hassan;Headset;North;$494.78;30;paid;2025-12-06 00:00:00
+ORD-1032;Østergaard A/S;Webcam;Central;2022.57;43;;2025-06-03 00:00:00
+ORD-1204;René & Co;Headset;North;;42;cancelled;2025-05-27 00:00:00
+ORD-1162;Ahmed Hassan;Keyboard;Central;426.56;50;;2026-02-19 00:00:00
+ORD-1168;Østergaard A/S;Laptop;West;;16;cancelled;2025-02-11 00:00:00
+ORD-1206;Dvořák Systems;Monitor;East;206.99;49;;2025-05-24 00:00:00
+ORD-1138;Emma Wilson;Headset;East;;37;cancelled;2025-02-05 00:00:00
+ORD-1062;München Tech;Docking Station;;2084.01;6;cancelled;2025-01-10 00:00:00
+ORD-1135;Žižka Enterprises;Headset;North;551.53;15;paid;2025-06-29 00:00:00
+ORD-1128;Maria Santos;Webcam;West;102.1;26;cancelled;2025-12-18 00:00:00
+ORD-1180;James Brown;Docking Station;West;981.95;32;cancelled;2025-07-08 00:00:00
+ORD-1243;Raj Patel;Headset;South;379.57;15;cancelled;2025-06-03 00:00:00
+ORD-1070;James Brown;SSD;West;1834.29;16;paid;2025-05-23 00:00:00
+ORD-1222;Ann Lee;Monitor;East;1623.6;6;;2025-04-29 00:00:00
+ORD-1064;René & Co;Laptop;Central;337.4;37;pending;2025-08-27 00:00:00
+ORD-1044;David Cohen;Docking Station;Central;311.22;13;refunded;2025-01-23 00:00:00
+ORD-1186;Cañada Corp;Mouse;Central;933.2;18;pending;2026-05-07 00:00:00
+ORD-1156;Žižka Enterprises;Headset;Central;;22;paid;2025-06-18 00:00:00
+ORD-1040;Ahmed Hassan;Monitor;East;1760.66;3;cancelled;2025-04-24 00:00:00
+ORD-1123;Åsa Lindqvist;Laptop;North;627.83;37;pending;2025-02-05 00:00:00
+ORD-1153;Maria Santos;SSD;Central;1984.75;29;;2025-11-30 00:00:00
+ORD-1023;Chen Wei;Docking Station;South;643.27;29;;2025-02-20 00:00:00
+ORD-1217;Žižka Enterprises;Monitor;West;888.29;47;refunded;2025-05-28 00:00:00
+ORD-1213;Sophie Martin;Laptop;Central;$296.99;;refunded;2025-08-03 00:00:00
+ORD-1081;René & Co;Docking Station;Central;1555.59;25;cancelled;2026-04-11 00:00:00
+ORD-1039;René & Co;Keyboard;West;;22;cancelled;2026-02-15 00:00:00
+ORD-1240;Cañada Corp;Monitor;North;;40;paid;2025-05-04 00:00:00
+ORD-1047;Åsa Lindqvist;Docking Station;South;769.85;1;refunded;2025-05-27 00:00:00
+ORD-1094;José García;Monitor;South;58.84;15;paid;2025-08-25 00:00:00
+ORD-1220;Sørensen AS;Monitor;South;;15;pending;2025-01-27 00:00:00
+ORD-1236;François Dubois;Headset;North;174.13;31;paid;2025-05-27 00:00:00
+ORD-1161;René & Co;Keyboard;North;1975.6;35;;2025-01-20 00:00:00
+ORD-1043;José García;Webcam;N/A;2459.29;39;cancelled;2025-06-26 00:00:00
+ORD-1145;José García;Mouse;East;1444.16;27;refunded;2025-02-28 00:00:00
+ORD-1190;Olga Petrova;Keyboard;East;325.37;9;pending;2026-02-09 00:00:00
+ORD-1211;Ann Lee;Headset;East;2450.25;47;paid;2025-11-02 00:00:00
+ORD-1003;Emma Wilson;  Mouse  ;West;2122.55;3;cancelled;2025-10-02 00:00:00
+ORD-1105;Señor López;Laptop;North;163.9;28;pending;2025-05-06 00:00:00
+ORD-1053;Bob Smith;Headset;West;1805.2;36;cancelled;2026-04-05 00:00:00
+ORD-1133;Sophie Martin;Docking Station;North;947.3;4;;2026-05-05 00:00:00
+ORD-1001;Łukaszewicz Ltd;Mouse;South;1515.0;46;;2025-08-03 00:00:00
+ORD-1223;Chen Wei;LAPTOP;South;2098.07;3;cancelled;2026-02-08 00:00:00
+ORD-1103;François Dubois;Docking Station;East;2221.41;35;paid;2025-11-13 00:00:00
+ORD-1049;François Dubois;Headset;North;1884.07;15;pending;2025-03-17 00:00:00
+ORD-1163;Señor López;Laptop;West;1805.97;40;refunded;2026-01-21 00:00:00
+ORD-1080;Sophie Martin;SSD;North;1723.97;37;refunded;2025-02-13 00:00:00
+ORD-1205;Chen Wei;Mouse;West;679.57;26;refunded;2025-01-24 00:00:00
+ORD-1034;Åsa Lindqvist;Monitor;East;646.53;4;paid;2025-11-21 00:00:00
+ORD-1237;Łukaszewicz Ltd;Keyboard;West;2231.05;25;cancelled;2025-02-11 00:00:00
+ORD-1007;Kim Min-jae;Monitor;South;693.12;45;;2025-04-23 00:00:00
+ORD-1171;Naïve Solutions;Docking Station;North;613.16;16;cancelled;2025-11-24 00:00:00
+ORD-1198;Raj Patel;Laptop;West;1375.3;20;cancelled;2025-05-06 00:00:00
+ORD-1242;Østergaard A/S;Monitor;North;2483.87;47;;2025-06-13 00:00:00
+ORD-1110;Sophie Martin;Webcam;North;1722.35;4;;2026-01-17 00:00:00
+ORD-1091;Olga Petrova;Docking Station;Central;;17;refunded;2025-03-01 00:00:00
+ORD-1083;Åsa Lindqvist;Mouse;South;1391.18;27;cancelled;2025-12-19 00:00:00
+ORD-1129;Björn Andersson;SSD;North;822.23;9;refunded;2025-11-16 00:00:00
+ORD-1052;Łukaszewicz Ltd;SSD;North;$2295.74;9;cancelled;2025-12-08 00:00:00
+ORD-1089;Emma Wilson;SSD;Central;2292.28;38;cancelled;2025-11-22 00:00:00
+ORD-1008;Ahmed Hassan;Laptop;South;2017.49;5;pending;2026-04-13 00:00:00
+ORD-1013;Sørensen AS;Headset;North;416.44;;refunded;2026-05-13 00:00:00
+ORD-1059;David Cohen;Monitor;West;1103.69;;refunded;2025-12-09 00:00:00
+ORD-1248;Sophie Martin;Webcam;;1517.23;13;;2026-01-06 00:00:00
+ORD-1131;James Brown;  Monitor  ;West;590.52;30;cancelled;2025-08-01 00:00:00
+ORD-1017;Ahmed Hassan;Keyboard;;1526.32;35;pending;2026-01-01 00:00:00
+ORD-1166;Maria Santos;  Webcam  ;North;2188.44;7;;2026-03-12 00:00:00
+ORD-1072;Ann Lee;Webcam;East;1500.48;36;paid;2025-09-22 00:00:00
+ORD-1191;Ann Lee;Headset;West;1390.33;6;paid;2025-06-08 00:00:00
+ORD-1134;Chen Wei;Mouse;West;1671.72;47;paid;2026-05-11 00:00:00
+ORD-1249;Ahmed Hassan;SSD;South;849.09;1;pending;2026-04-25 00:00:00
+ORD-1228;München Tech;Laptop;East;1130.67;22;refunded;2025-10-26 00:00:00
+ORD-1062;München Tech;Docking Station;East;2084.01;6;cancelled;2025-01-10 00:00:00
+ORD-1063;David Cohen;Headset;South;1958.55;49;paid;2026-05-02 00:00:00
+ORD-1054;Señor López;SSD;West;636.92;50;;2025-09-06 00:00:00
+ORD-1107;Raj Patel;SSD;East;1675.43;30;refunded;2025-12-13 00:00:00
+ORD-1050;Jos� García;SSD;Central;205.25;41;;2025-04-10 00:00:00
+ORD-1238;Ahmed Hassan;Keyboard;East;2482.3;9;pending;2026-03-04 00:00:00
+ORD-1174;Ahmed Hassan;Headset;North;1371.6;33;;2025-01-11 00:00:00
+ORD-1239;José García;Webcam;West;1372.5;15;pending;2025-08-24 00:00:00
+ORD-1189;James Brown;Headset;East;1386.24;20;pending;2025-12-31 00:00:00
+ORD-1014;Bob Smith;Mouse;East;1281.47;24;pending;2025-10-04 00:00:00
+ORD-1207;Sophie Martin;Mouse;South;999.91;22;;2026-04-26 00:00:00
+ORD-1193;François Dubois;Headset;South;1956.15;12;pending;2025-08-10 00:00:00
+ORD-1219;Olga Petrova;SSD;East;554.62;18;;2025-12-23 00:00:00
+ORD-1169;Cañada Corp;Headset;North;1633.65;9;paid;2025-05-27 00:00:00
+ORD-1058;Ann Lee;Headset;East;2137.28;27;;2026-01-18 00:00:00
+ORD-1218;Björn Andersson;Docking Station;West;2387.66;19;paid;2025-05-28 00:00:00
+ORD-1048;Åsa Lindqvist;Headset;West;1697.18;48;pending;2025-12-04 00:00:00
+ORD-1088;Sørensen AS;Monitor;Central;76.35;18;;2025-01-21 00:00:00
+ORD-1235;Østergaard A/S;SSD;East;1004.97;48;pending;2025-10-24 00:00:00
+ORD-1021;Ann Lee;SSD;West;264.9;28;cancelled;2025-08-28 00:00:00
+ORD-1057;Müller GmbH;Docking Station;West;1470.6;49;;2025-07-14 00:00:00
+ORD-1203;Emma Wilson;  SSD  ;West;1255.99;26;;2025-08-23 00:00:00
+ORD-1160;Kim Min-jae;  Headset  ;North;471.15;50;cancelled;2025-04-09 00:00:00
+;;;;;;;
+ORD-1187;Björn Andersson;Keyboard;West;2286.02;50;refunded;2025-12-27 00:00:00
+ORD-1191;Ann Lee;Headset;West;1390.33;6;paid;2025-06-08 00:00:00
+ORD-1149;David Cohen;Keyboard;South;658.52;10;paid;2025-04-01 00:00:00
+ORD-1130;Kim Min-jae;Headset;West;1338.13;39;cancelled;2025-02-20 00:00:00
+ORD-1151;Lucas Silva;Headset;South;1185.58;18;;2025-01-29 00:00:00
+ORD-1099;Østergaard A/S;Monitor;South;603.07;3;refunded;2026-01-17 00:00:00
+ORD-1087;Žižka Enterprises;Webcam;Central;1108.45;28;refunded;2025-11-06 00:00:00
+ORD-1214;Naïve Solutions;Monitor;West;1538.41;48;paid;2025-12-28 00:00:00
+ORD-1121;Łukaszewicz Ltd;Webcam;North;562.74;16;refunded;2025-02-20 00:00:00
+ORD-1269;"Smith, John; Doe, Jane";"Laptop;Mouse";"North;South";"1200;25";"2;5";"paid;pending";2026-01-15 00:00:00
+ORD-1020;Müller GmbH;Mouse;Central;1680.72;9;;2025-10-23 00:00:00
+ORD-1188;Østergaard A/S;Webcam;West;$360.93;12;cancelled;2025-02-14 00:00:00
+ORD-1071;Østergaard A/S;SSD;Central;963.0;;refunded;2025-04-04 00:00:00
+ORD-1106;Bob Smith;Keyboard;South;1533.49;44;pending;2025-09-12 00:00:00
+ORD-1102;Naïve Solutions;Keyboard;North;2423.78;45;cancelled;2025-11-29 00:00:00
