@@ -1,6 +1,8 @@
-# Environment
+# Environment / Secrets
 .env
 .env.local
+.env.*.local
+*.env
 
 # Python
 __pycache__/
@@ -10,24 +12,54 @@ __pycache__/
 .venv/
 venv/
 env/
+*.egg-info/
+dist/
+build/
 
-# Generated artifacts
-chart_*.png
-*.png
+# ADK / Agent Runtime
+agents/.adk/
+*.db
+.session.db
+.adk/
+
+# Session / Runtime Data
 .memory/
 clips/
+*.log
+
+# Generated Artifacts
+chart_*.png
+*.png
+*.jpg
+*.jpeg
+*.gif
+output/
 
 # Testing
 .pytest_cache/
 .coverage
 htmlcov/
+.tox/
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
 # OS
 .DS_Store
 Thumbs.db
+
+# Internal Docs (not for submission)
+docs/VIDEO_SCRIPT.md
+docs/RECORDING_GUIDE.md
+docs/GIT_WORKFLOW.md
+APPLY_NOTES.md
+
+# Empty / Placeholder Files
+.gitkeep
+
+# Duplicate Configs
+tests/pytest.ini
