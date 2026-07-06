@@ -92,6 +92,19 @@ v
 
 ## Key Features
 
+### Real-World Data Ingestion (schema-agnostic)
+- Robust `data_loader` engine (`agents/data_loader.py`) that handles messy, real business files:
+  auto-detects **encoding** (charset-normalizer) and **delimiter** (comma/semicolon/tab/pipe),
+  tolerates **quoted fields with embedded newlines** and **ragged rows**, reads **multi-sheet Excel**,
+  and **chunks files over 100 MB**.
+- **Data-quality score (0–100)** across completeness, uniqueness, validity, and consistency, with a
+  letter grade and human-readable flags (missing data, duplicate rows, constant/junk columns).
+- Automatic type inference (numeric / datetime) with a 90%-agreement threshold to avoid false positives.
+- Exposed to agents and third parties as the `data_quality_report` tool (also over MCP), so the
+  Data Scout can profile *any* file — not just the sample schema.
+- 25 pytest cases in `tests/test_data_loader.py` covering encoding, delimiters, messy data,
+  type inference, the quality score, and Excel.
+
 ### Day 1: Foundation Agent
 - Single ADK agent with natural language data analysis
 - `analyze_csv` tool: automated data profiling, schema detection, missing value reporting

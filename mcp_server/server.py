@@ -19,10 +19,30 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from mcp.server.fastmcp import FastMCP
-from agents.tools import analyze_csv, generate_chart
+from agents.tools import analyze_csv, generate_chart, data_quality_report
 
 # Create MCP server instance with descriptive name
 mcp = FastMCP("insightforge-mcp")
+
+
+@mcp.tool()
+def data_quality_report_tool(file_path: str) -> str:
+    """
+    Profile ANY messy tabular file (CSV/TSV/TXT/Excel) and return a schema
+    plus a 0-100 data-quality score.
+
+    Auto-detects encoding and delimiter, tolerates quoted/ragged rows, infers
+    column types, and scores completeness, uniqueness, validity, and
+    consistency. Use this for unknown, real-world files where the schema is
+    not known in advance.
+
+    Args:
+        file_path: Path to a .csv, .tsv, .txt, .xlsx, or .xls file.
+
+    Returns:
+        A natural-language data-quality report. SECURITY_ERROR on bad input.
+    """
+    return data_quality_report(file_path)
 
 
 @mcp.tool()

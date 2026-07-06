@@ -1,0 +1,7 @@
+order_id;customer;region;amount;status
+1001;José Garcia;North;1200;paid
+1002;Müller GmbH;South;;paid
+1003;Ann Lee;North;75;paid
+1003;Ann Lee;North;75;paid
+1004;Bob Smith;East;;paid
+1005;Chen Wei;West;340;paid

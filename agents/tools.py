@@ -107,6 +107,37 @@ def _get_region_breakdown(df: pd.DataFrame) -> str:
     return "\n".join(lines)
 
 
+def data_quality_report(file_path: str) -> str:
+    """
+    Robustly load a messy real-world CSV/TSV/Excel file and return a schema +
+    data-quality report with a 0-100 quality score.
+
+    Unlike analyze_csv (schema-specific), this works on ANY tabular file:
+    it auto-detects encoding and delimiter, tolerates quoted/ragged rows,
+    infers column types, and scores completeness/uniqueness/validity/consistency.
+
+    Args:
+        file_path: Path to a .csv, .tsv, .txt, .xlsx, or .xls file.
+
+    Returns:
+        A natural-language data-quality report, or SECURITY_ERROR / PROCESSING_ERROR.
+    """
+    is_valid, error_msg = _validate_file_path(file_path)
+    if not is_valid:
+        # data_quality_report also accepts .tsv/.txt, so re-check those extensions.
+        if not (file_path.lower().endswith((".tsv", ".txt"))):
+            return f"SECURITY_ERROR: {error_msg}"
+    try:
+        from agents.data_loader import load_dataframe, profile_to_text
+
+        _df, profile = load_dataframe(file_path)
+        return _redact_pii(profile_to_text(profile))
+    except ValueError as e:
+        return f"SECURITY_ERROR: {str(e)}"
+    except Exception as e:
+        return f"PROCESSING_ERROR: {str(e)}"
+
+
 def analyze_csv(file_path: str) -> str:
     """
     Loads a CSV or Excel file and returns a structured summary.

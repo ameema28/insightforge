@@ -20,7 +20,7 @@ if env_path.exists():
 else:
     load_dotenv()
 
-from agents.tools import analyze_csv, generate_chart
+from agents.tools import analyze_csv, generate_chart, data_quality_report
 
 try:
     from groq import Groq as _GroqClient
@@ -70,6 +70,13 @@ class InsightForgeRunner:
 
     def _is_summary_request(self, prompt: str) -> bool:
         return any(kw in prompt.lower() for kw in ['summary', 'summarize', 'executive', 'manager', 'brief', 'overview'])
+
+    def _is_quality_request(self, prompt: str) -> bool:
+        return any(kw in prompt.lower() for kw in [
+            'quality', 'schema', 'columns', 'data types', 'dtype',
+            'missing', 'duplicate', 'profile', 'encoding', 'delimiter',
+            'clean', 'inspect', 'structure'
+        ])
 
     def _extract_file_path(self, prompt: str) -> Optional[str]:
         if '(File:' in prompt:
@@ -132,6 +139,73 @@ class InsightForgeRunner:
         footer = "\n\n---\n\n*Powered by InsightForge multi-agent BI system*"
         return header + result + footer
 
+    def _format_quality_markdown(self, report: str, prompt: str) -> str:
+        """Render the robust-loader report as camera-friendly markdown."""
+        lines = [l.rstrip() for l in report.split("\n")]
+        q = prompt.split("(File:")[0].strip()
+        out = [f"### Data Quality Report", f"*{q}*", ""]
+        meta = {}
+        schema_rows, flags = [], []
+        score_line, dims_line, section = "", "", None
+        for l in lines:
+            st = l.strip()
+            if not st or set(st) <= set("=-"):
+                continue
+            if st.startswith("DATA SCOUT REPORT"):
+                continue
+            if st.startswith("File:"):
+                meta["File"] = st.split("File:")[1].strip(); continue
+            if st.startswith("Encoding:"):
+                meta["enc"] = st; continue
+            if st.startswith("Rows:"):
+                meta["rows"] = st; continue
+            if st.startswith("DATA QUALITY SCORE:"):
+                score_line = st.split("DATA QUALITY SCORE:")[1].strip(); continue
+            if st.startswith("completeness="):
+                dims_line = st; continue
+            if st == "SCHEMA":
+                section = "schema"; continue
+            if st == "FLAGS":
+                section = "flags"; continue
+            if section == "schema" and "::" in st:
+                schema_rows.append(st); continue
+            if section == "flags" and st.startswith("-"):
+                flags.append(st.lstrip("- ").strip()); continue
+        out.append(f"## {score_line}")
+        if dims_line:
+            parts = dict(x.split("=") for x in dims_line.split())
+            out.append(
+                f"**Completeness** {parts.get('completeness','')} \u00b7 "
+                f"**Uniqueness** {parts.get('uniqueness','')} \u00b7 "
+                f"**Validity** {parts.get('validity','')} \u00b7 "
+                f"**Consistency** {parts.get('consistency','')}"
+            )
+        out.append("")
+        m = [meta.get("File", "")]
+        if meta.get("enc"): m.append(meta["enc"])
+        if meta.get("rows"): m.append(meta["rows"])
+        out.append("  |  ".join(x for x in m if x))
+        out.append("")
+        if schema_rows:
+            out += ["**Schema**", "", "| Column | Type | Missing | Unique |", "|---|---|---|---|"]
+            for r in schema_rows:
+                name = r.split("::")[0].strip()
+                rest = r.split("::")[1]
+                dtype = rest.split("|")[0].strip()
+                missing, unique = "0%", ""
+                for seg in rest.split("|"):
+                    seg = seg.strip()
+                    if seg.startswith("missing"): missing = seg.replace("missing", "").strip()
+                    if seg.startswith("unique"): unique = seg.replace("unique", "").strip()
+                out.append(f"| {name} | `{dtype}` | {missing} | {unique} |")
+            out.append("")
+        if flags:
+            out += ["**Data Quality Flags**", ""]
+            for f in flags:
+                out.append(f"- {f}")
+            out.append("")
+        return "\n".join(out)
+
     def generate_chart_direct(self, file_path: str, prompt: str) -> str:
         import pandas as pd
         self._trace_log.append(f"[CHART] Reading: {file_path}")
@@ -169,6 +243,19 @@ class InsightForgeRunner:
         if self._is_chart_request(prompt):
             self._trace_log.append("[CHART] Request")
             return self.generate_chart_direct(file_path, prompt)
+        if self._is_quality_request(prompt):
+            self._trace_log.append("[SCOUT] Data-quality request")
+            cache_key = self._get_cache_key(prompt, file_path)
+            if cache_key in self._cache:
+                self._trace_log.append("[CACHE] Hit")
+                return self._cache[cache_key]
+            report = data_quality_report(file_path)
+            self._trace_log.append(f"[TOOL] data_quality_report: {len(report)} chars")
+            if report.startswith("SECURITY_ERROR") or report.startswith("PROCESSING_ERROR"):
+                return report
+            final = self._format_quality_markdown(report, prompt)
+            self._cache[cache_key] = final
+            return final
         self._trace_log.append(f"[ANALYSIS] File: {file_path}")
         cache_key = self._get_cache_key(prompt, file_path)
         if cache_key in self._cache:
