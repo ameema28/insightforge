@@ -213,7 +213,6 @@ Environment variables: `GROQ_API_KEY` (primary LLM), `GOOGLE_API_KEY` (ADK / Gem
 | Document                  | Description                                            |
 | ------------------------- | ------------------------------------------------------ |
 | `docs/WRITEUP.md`         | Kaggle submission writeup (under 2,500 words)          |
-| `docs/VIDEO_SCRIPT.md`    | 5-minute demo video script with timestamps             |
 
 ---
 
