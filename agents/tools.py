@@ -53,6 +53,23 @@ def _redact_pii(text: str) -> str:
     return text
 
 
+def _robust_read(abs_path: str):
+    """Read CSV/TSV/Excel with encoding + delimiter auto-detection.
+
+    Falls back to plain pandas if the robust loader is unavailable, so this
+    never makes an already-working path worse.
+    """
+    try:
+        from agents.data_loader import load_dataframe
+        df, _profile = load_dataframe(abs_path)
+        return df
+    except Exception:
+        import pandas as _pd
+        if abs_path.lower().endswith((".xlsx", ".xls")):
+            return _pd.read_excel(abs_path)
+        return _pd.read_csv(abs_path, sep=None, engine="python")
+
+
 def _get_product_breakdown(df: pd.DataFrame) -> str:
     """Generate product-level revenue and units breakdown."""
     if 'Product' not in df.columns or 'Revenue' not in df.columns:
@@ -148,10 +165,7 @@ def analyze_csv(file_path: str) -> str:
 
     try:
         abs_path = os.path.abspath(file_path)
-        if abs_path.lower().endswith(".csv"):
-            df = pd.read_csv(abs_path)
-        else:
-            df = pd.read_excel(abs_path)
+        df = _robust_read(abs_path)
 
         row_count = len(df)
         column_names = list(df.columns)
@@ -212,10 +226,7 @@ def generate_chart(file_path: str, x_column: str, y_column: str, chart_type: str
 
     try:
         abs_path = os.path.abspath(file_path)
-        if abs_path.lower().endswith(".csv"):
-            df = pd.read_csv(abs_path)
-        else:
-            df = pd.read_excel(abs_path)
+        df = _robust_read(abs_path)
 
         if x_column not in df.columns:
             return f"ERROR: Column '{x_column}' not found. Available: {list(df.columns)}"

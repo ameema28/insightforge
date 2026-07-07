@@ -54,6 +54,19 @@ class GroqWrapper:
 
 
 class InsightForgeRunner:
+
+    _COLUMN_SYNONYMS = {
+        'revenue': ['amount', 'sales', 'total', 'price'],
+        'sales': ['amount', 'revenue', 'total'],
+        'price': ['amount', 'cost', 'unit_price'],
+        'quantity': ['units', 'qty', 'count'],
+        'units': ['quantity', 'qty', 'count'],
+        'customer': ['client', 'buyer', 'user'],
+        'product': ['item', 'sku', 'goods'],
+        'region': ['area', 'zone', 'territory', 'location'],
+        'date': ['order_date', 'timestamp', 'created_at', 'datetime'],
+    }
+
     def __init__(self, session_id: str = "streamlit_user_001"):
         self.session_id = session_id
         self._trace_log: list[str] = []
@@ -64,6 +77,22 @@ class InsightForgeRunner:
                 self._groq = GroqWrapper()
             except Exception:
                 pass
+
+    def _resolve_synonym(self, col_name: str, available_cols: list) -> str:
+        """Map common synonyms to actual column names."""
+        col_lower = col_name.lower()
+        for c in available_cols:
+            if c.lower() == col_lower:
+                return c
+        if col_lower in self._COLUMN_SYNONYMS:
+            for synonym in self._COLUMN_SYNONYMS[col_lower]:
+                for c in available_cols:
+                    if c.lower() == synonym:
+                        return c
+        for c in available_cols:
+            if col_lower in c.lower() or c.lower() in col_lower:
+                return c
+        return col_name
 
     def _is_chart_request(self, prompt: str) -> bool:
         return any(kw in prompt.lower() for kw in ['chart', 'graph', 'plot', 'visualize', 'bar chart', 'line chart', 'scatter', 'histogram'])
@@ -84,18 +113,32 @@ class InsightForgeRunner:
         return None
 
     def _detect_columns(self, df, prompt: str) -> Tuple[str, str]:
-        import pandas as pd
         prompt_lower = prompt.lower()
         cols = list(df.columns)
-        mentioned = [c for c in cols if c.lower() in prompt_lower]
+
+        mentioned = []
+        for c in cols:
+            resolved = self._resolve_synonym(c, cols)
+            if resolved.lower() in prompt_lower and resolved not in mentioned:
+                mentioned.append(resolved)
+
+        for synonym, targets in self._COLUMN_SYNONYMS.items():
+            if synonym in prompt_lower:
+                for t in targets:
+                    for c in cols:
+                        if c.lower() == t and c not in mentioned:
+                            mentioned.append(c)
+
         cat_cols = df.select_dtypes(include=['object', 'category']).columns.tolist()
         num_cols = df.select_dtypes(include=['number']).columns.tolist()
+
         x_col, y_col = "", ""
         for c in mentioned:
             if c in cat_cols and not x_col:
                 x_col = c
             elif c in num_cols and not y_col:
                 y_col = c
+
         if not x_col and cat_cols:
             x_col = cat_cols[0]
         if not y_col and num_cols:
@@ -104,6 +147,7 @@ class InsightForgeRunner:
             x_col = cols[0]
         if not y_col:
             y_col = cols[1] if len(cols) > 1 else cols[0]
+
         return x_col, y_col
 
     def _get_cache_key(self, prompt: str, file_path: Optional[str]) -> str:
@@ -135,7 +179,8 @@ class InsightForgeRunner:
             else:
                 formatted.append(stripped)
         result = "\n\n".join(formatted)
-        header = f"# Analysis Result\n\n**Question:** {prompt}\n\n"
+        clean_q = prompt.split("(File:")[0].strip()
+        header = f"# Analysis Result\n\n**Question:** {clean_q}\n\n"
         footer = "\n\n---\n\n*Powered by InsightForge multi-agent BI system*"
         return header + result + footer
 
@@ -143,7 +188,7 @@ class InsightForgeRunner:
         """Render the robust-loader report as camera-friendly markdown."""
         lines = [l.rstrip() for l in report.split("\n")]
         q = prompt.split("(File:")[0].strip()
-        out = [f"### Data Quality Report", f"*{q}*", ""]
+        out = [f"### Data Quality Report", ""]
         meta = {}
         schema_rows, flags = [], []
         score_line, dims_line, section = "", "", None
@@ -210,9 +255,13 @@ class InsightForgeRunner:
         import pandas as pd
         self._trace_log.append(f"[CHART] Reading: {file_path}")
         try:
-            df = pd.read_csv(file_path) if file_path.lower().endswith(".csv") else pd.read_excel(file_path)
-        except Exception as e:
-            return f"Error: {str(e)}"
+            from agents.data_loader import load_dataframe
+            df, _ = load_dataframe(file_path)
+        except Exception:
+            try:
+                df = pd.read_csv(file_path, sep=None, engine="python") if file_path.lower().endswith(".csv") else pd.read_excel(file_path)
+            except Exception as e:
+                return f"Error: {str(e)}"
         self._trace_log.append(f"[CHART] {len(df)} rows, cols: {list(df.columns)}")
         x_col, y_col = self._detect_columns(df, prompt)
         self._trace_log.append(f"[CHART] x={x_col}, y={y_col}")

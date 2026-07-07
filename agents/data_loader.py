@@ -101,7 +101,10 @@ def _coerce_types(df: pd.DataFrame) -> pd.DataFrame:
         # Try datetime (only if it looks date-ish to avoid false positives)
         sample = s.dropna().astype(str).head(20)
         if len(sample) and sample.str.contains(r"[-/:]").mean() > 0.5:
-            dt = pd.to_datetime(s, errors="coerce")
+            import warnings
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                dt = pd.to_datetime(s, errors="coerce")
             if dt.notna().sum() >= max(1, int(0.9 * s.notna().sum())):
                 df[col] = dt
     return df
